@@ -45,22 +45,22 @@ mapsi_waitbar(1, 'Preprocessing');
 M = length(data.I);
 
 % get the kurihara mesh
-[in_verts, simp] = create_kurihara_mesh(opts.N);
-N = length( in_verts );
+[in_verts, simp] = kurihara_mesh(opts.N);
+N = size(in_verts, 1);
 
 % calculate A matrix and scale so basis functions are normalized
 if nargin < 3
-    A = integrate_basis_mesh_2D(data.kernel, simp, in_verts, data.Q, opts.n_quad, 1);
+    A = integrate_kernel_sphere(data.kernel, simp, in_verts, data.Q, opts.n_sub, 1);
 end
 
-Aeq = integrate_basis_mesh_2D(@(in,out) 1, simp, in_verts, 0, opts.n_quad);
+Aeq = integrate_kernel_sphere(@(in,out) 1, simp, in_verts, 0, opts.n_sub);
 beq = 1;
 
-w0 = 1 * ones(N,1) / sum(Aeq);
+w0 = ones(N,1) / sum(Aeq);
 
 % calculate the regularization matrix so that w' * B * w is the integral of the
 % square magnitude of the gradient of the distribution on the surface 
-B = integrate_square_gradient( in_verts, simp, opts.n_quad );
+B = integrate_spherical_square_gradient(in_verts, simp);
 
 % ------------------ do cross validation to find regularization ---------
 lambdas = opts.lambdas/N;     % range of lambdas to use

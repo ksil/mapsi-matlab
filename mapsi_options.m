@@ -31,8 +31,8 @@ classdef mapsi_options
 %       The optimality tolerance used during optimization.
 % 'steptol' (1e-12)
 %       The step tolerance used during optimization.
-% 'n_quad' (10)
-%       The number of quadrature points in each direction for integration
+% 'n_sub' (4)
+%       The number of subdivisions of triangles for integration
 
 properties
     N
@@ -43,7 +43,7 @@ properties
     mctrials
     optimality
     steptol
-    n_quad
+    n_sub
 end
 
 methods
@@ -63,7 +63,7 @@ methods
         opts.mctrials = 1e5;
         opts.optimality = 1e-8;
         opts.steptol = 1e-12;
-        opts.n_quad = 10;
+        opts.n_sub = 4;
         
         for i = 1:2:length(varargin)
             switch varargin{i}
@@ -83,8 +83,8 @@ methods
                     opts.optimality = varargin{i+1};
                 case 'steptol'
                     opts.steptol = varargin{i+1};
-                case 'n_quad'
-                    opts.n_quad = varargin{i+1};
+                case 'n_sub'
+                    opts.n_sub = varargin{i+1};
                 otherwise
                     error('The key ''%s'' is not a valid option', string(varargin{i}))
             end
