@@ -63,7 +63,7 @@ w0 = ones(N,1) / sum(Aeq);
 B = integrate_spherical_square_gradient(in_verts, simp);
 
 % ------------------ do cross validation to find regularization ---------
-lambdas = opts.lambdas/N;     % range of lambdas to use
+lambdas = opts.lambdas;     % range of lambdas to use
 k = opts.folds;             % number of folds
 
 mapsi_waitbar(1, 'Processing');

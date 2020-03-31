@@ -29,9 +29,9 @@ if isrow(w)
     w = w';
 end
 
-[in_verts, simp] = create_kurihara_mesh(opts.N);
-Aeq = integrate_basis_mesh_2D(@(in,out) 1, simp, in_verts, 0, opts.n_quad);
-B = integrate_square_gradient( in_verts, simp, opts.n_quad );
+[in_verts, simp] = kurihara_mesh(opts.N);
+Aeq = integrate_kernel_sphere(@(in,out) 1, simp, in_verts, 0, opts.n_sub);
+B = integrate_spherical_square_gradient(in_verts, simp);
 
 % define matrices for objective function
 H = ( A .* ( data.c ./ data.sigma ) .^ 2 )' * A + minlambda * length(data.I) * B;
